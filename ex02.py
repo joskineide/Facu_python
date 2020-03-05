@@ -113,3 +113,65 @@ vogals = "aeiouAEIOU"
 vogal_count = {i: list_chars.count(i) for i in vogals if i in list_chars}
 
 print("A quantidade de cada vogal é: ", vogal_count)
+
+
+#6 - Escreva um programa que lê duas notas de vários alunos e armazena tais notas em um dicionário, 
+# onde a chave é o nome do aluno. A entrada de dados deve terminar quando for lida uma string vazia como nome. 
+# Escreva uma função que retorna a média do aluno, dado seu nome.
+
+name = "asd"
+users = {}
+
+while name != "" :
+  name = input("Digite o nome do aluno: ")
+  if name != "":
+    grades = list(map(float,input("Digite as notas do aluno separado por espaço: ").split()))
+    users[name] = grades
+
+print(users)
+
+
+import random
+
+import random
+
+# 7 - Uma pista de Kart permite 10 voltas para cada um de 6 corredores. 
+# Escreva um programa que leia todos os tempos em segundos e os guarde em um dicionário, onde a chave é o nome do corredor. 
+# Ao final diga de quem foi a melhor volta da prova e em que volta; e ainda a classificação final em ordem (1o o campeão).
+# O campeão é o que tem a menor média de tempos.
+
+runners = {}
+
+best_lap_time = 99999
+best_lap_runner = ""
+best_lap = 99
+best_avg = 99999
+winner = ""
+
+for i in range(6): 
+  name = input("Digite o nome do corredor: ")
+  laps = []
+  for i in range(10):
+    lapTime = random.randint(4000, 10000)
+    laps.append(lapTime)
+    if lapTime < best_lap_time:
+      best_lap_time = lapTime
+      best_lap_runner = name
+      best_lap = i + 1
+  if sum(laps) < best_avg:
+    best_avg = sum(laps)
+    winner = name
+  runners[name] = {}
+  runners[name]["laps"] = laps
+  runners[name]["avg"] = sum(laps)/10
+
+print("Melhor corredor: ", best_lap_runner, "com o tempo de ", best_lap_time, "na volta", best_lap)
+
+sorted_runners = sorted(runners.items(), key = lambda tup: (tup[1]["avg"]))
+
+print(sorted_runners)
+
+
+for i in range(6): 
+
+  print("O corredor na posição", i + 1, "foi ", sorted_runners[i][0], "com o tempo médio de", sorted_runners[i][1]["avg"])
