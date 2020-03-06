@@ -175,3 +175,64 @@ print(sorted_runners)
 for i in range(6): 
 
   print("O corredor na posição", i + 1, "foi ", sorted_runners[i][0], "com o tempo médio de", sorted_runners[i][1]["avg"])
+
+
+#8 - Escreva um programa para armazenar uma agenda de telefones em um dicionário. 
+# Cada pessoa pode ter um ou mais telefones e a chave do dicionário é o nome da pessoa. 
+# Seu programa deve ter as seguintes funções:
+
+#incluirNovoNome – essa função acrescenta um novo nome na agenda, com um ou mais telefones. 
+# Ela deve receber como argumentos o nome e os telefones.
+#incluirTelefone – essa função acrescenta um telefone em um nome existente na agenda. 
+# Caso o nome não exista na agenda, você̂ deve perguntar se a pessoa deseja inclui-lo. 
+# Caso a resposta seja afirmativa, use a função anterior para incluir o novo nome.
+#excluirTelefone – essa função exclui um telefone de uma pessoa que já está na agenda. 
+# Se a pessoa tiver apenas um telefone, ela deve ser excluída da agenda.
+#excluirNome – essa função exclui uma pessoa da agenda.
+#consultarTelefone – essa função retorna os telefones de uma pessoa na agenda.
+
+option = ""
+
+phonebook = {}
+
+while option != "exit":
+  option = input("Oque deseja fazer? IncluirNome(in), IncluirTelefone(it), ExcluirNome(en), ExcluirTelefone(et) ou sair(exit)? ")
+
+  if option == "in":
+    name = input("Qual nome deseja incluir?")
+    phonebook[name] = []
+    number_list = []
+    number = ""
+    while number != "exit" or len(number_list) < 1:
+      number = input("Digite um número para adicionar a este contato (exit para sair)")
+      if number != "exit": 
+        number_list.append(number)
+    phonebook[name] = number_list 
+  elif option == "it":
+    name = input("Para qual pessoa deseja incluir?")
+    if name in phonebook: 
+      create_option = input("Nome não existente, deseja criar? (y/n")
+      if create_option == "n":
+        next
+      phonebook[name] = []
+    number = input("Digite um número para adicionar a este contato")
+    phonebook[name].append(number)
+  elif option == "et":
+    name = input("De qual pessoa deseja deletar o número?")
+    if name in phonebook: 
+      number = input("Qual número que deseja remover?")
+      phonebook[name].remove(number)
+      if len(phonebook[name]) < 1:
+        del phonebook[name]
+    else:
+      print("Usuário não encontrado")
+  elif option == "en":
+    name = input("Qual o nome que deseja deletar?")
+    if name in phonebook: 
+      del phonebook[name]
+    else:
+      print("Usuário não encontrado")
+  elif option == "exit":
+    print("Terminando execução")
+  else:
+    print("Opção inválida")
