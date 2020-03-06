@@ -238,3 +238,61 @@ while option != "exit":
     print("Terminando execução")
   else:
     print("Opção inválida")
+
+#   9 - 9 Faça um programa que leia um arquivo texto contendo uma lista de endereços IP e gere um outro arquivo, contendo um relatório dos endereços IP válidos e inválidos.
+#O arquivo de entrada possui o seguinte formato:
+#200.135.80.9
+#192.168.1.1
+#8.35.67.74
+#257.32.4.5
+#85.345.1.2
+#1.2.3.4
+#9.8.234.5
+#192.168.0.256
+#O arquivo de saída possui o seguinte formato:
+#[Endereços válidos:]
+#200.135.80.9
+#192.168.1.1
+#8.35.67.74
+#1.2.3.4
+#[Endereços inválidos:]
+#257.32.4.5
+#85.345.1.2
+#9.8.234.5
+#192.168.0.256
+
+ips = ["200.135.80.9","192.168.1.1","8.35.67.74", "257.32.4.5","85.345.1.2","1.2.3.4","9.8.234.5","192.168.0.256"]
+
+ipsCorretos = ["200.135.80.9","192.168.1.1","8.35.67.74","1.2.3.4"]
+
+ipsIncorretos = ["257.32.4.5","85.345.1.2","9.8.234.5",
+"192.168.0.256"]
+
+fileIps = open("ips.txt","w+")
+
+fileResult = open("ipsResult.txt","w+")
+
+for i in ips:
+  fileIps.write(i + "%d\r\n")
+
+fileIps.close()
+
+fileResult.write("Ips Corretos")
+
+for x in ipsCorretos:
+    fileResult.write(x + "%d\r\n")
+
+fileResult.write("Ips Incorretos")
+
+for z in ipsIncorretos:
+    fileResult.write(z + "%d\r\n")
+
+fileResult.close()
+
+contentIps = open("ips.txt","r")
+
+contentResults = open("ipsResult.txt","r")
+
+print(contentIps.readlines())
+
+print(contentResults.readlines())
