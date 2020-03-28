@@ -1,7 +1,3 @@
-asd = {123, 321, 123}
-
-print(asd)
-
 #EXERCÍCIO 1 
 
 #I

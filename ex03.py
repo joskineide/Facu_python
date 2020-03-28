@@ -1,25 +1,5 @@
 import math  
 
-
-# 21. O Sr. Manoel Joaquim acaba de adquirir uma panificadora e pretende implantar
-# a metodologia da tabelinha, que já é um sucesso na sua loja de 1,99. Você foi
-# contratado para desenvolver o programa que monta a tabela de preços de pães, de
-# 1 até 50 pães, a partir do preço do pão informado pelo usuário, conforme o exemplo
-# abaixo:
-# Preço do pão: R$ 0.18
-# Panificadora Pão de Ontem - Tabela de preços
-
-# 1 - R$ 0.18
-# 2 - R$ 0.36
-# ...
-# 50 - R$ 9.00
-
-
-
-raise "hell"
-
-
-
 # 1. Faça um Programa que peça dois números e imprima o maior deles.
 
 firstNumber = float(input("Digite um número: "))
@@ -491,15 +471,35 @@ print(total)
 # ...
 # 50 - R$ 99.50
 
-print(" Lojas Quase Dois - Tabela de preços")
+print("Lojas Quase Dois - Tabela de preços")
 
 count = 1
 
 while count <= 50:
-    print(count, "- R$", count*1.99)
+    print(count, "- R$%.2f" %(count*1.99))
     count += 1
 
 
+# 21. O Sr. Manoel Joaquim acaba de adquirir uma panificadora e pretende implantar
+# a metodologia da tabelinha, que já é um sucesso na sua loja de 1,99. Você foi
+# contratado para desenvolver o programa que monta a tabela de preços de pães, de
+# 1 até 50 pães, a partir do preço do pão informado pelo usuário, conforme o exemplo
+# abaixo:
+# Preço do pão: R$ 0.18
+# Panificadora Pão de Ontem - Tabela de preços
+
+# 1 - R$ 0.18
+# 2 - R$ 0.36
+# ...
+# 50 - R$ 9.00
+
+print("Panificadora Pão de Ontem - Tabela de preços")
+
+count = 1
+
+while count <= 50:
+    print(count, "- R$%.2f" %(count*0.18))
+    count += 1
 
 
 # 22. O Sr. Manoel Joaquim expandiu seus negócios para além dos negócios de 1,99 e
@@ -520,6 +520,49 @@ while count <= 50:
 # Troco: R$ 11.00
 # ...
 
+
+while True:
+
+    print("Iniciando atendimento...")
+    print("Bem vindo a Lojas Tabajara!")
+
+    price_products = []
+    cur_price = -1
+
+    while not cur_price == 0:
+        cur_price = float(input("Digite o preço do produto %i (0 para encerrar): " %(len(price_products)+1)))
+        if(cur_price < 0):
+            print("Preço inválido, por favor digite 0 ou um preço acima de 0")
+        else:
+            price_products.append(cur_price)
+
+    owed_money = sum(price_products)
+
+    total_paid = 0
+
+    while owed_money - total_paid > 0:
+        paying = float(input("Restante a ser pago R$%.2f, quanto deseja pagar? " %(owed_money - total_paid)))
+        if(paying > 0):
+            total_paid += paying
+        else:
+            print("Por favor pague oque deve!")
+    
+    print("Lojas Tabajara")
+
+    count = 1
+
+    for product in price_products:
+        print("Produto {:d}: R$ {:.2f}".format(count, product))
+        count += 1
+
+    print("Total: R$ %.2f" %owed_money)
+    print("Dinheiro: R$ %.2f" %total_paid)
+    print("Troco: R$ %.2f" %(total_paid - owed_money))
+
+    print("Encerrando atendimento...")
+    print("Muito obrigado por comprar nas Lojas Tabajara!")
+
+
 # 23. Foi feita uma estatística em cinco cidades brasileiras para coletar dados sobre
 # acidentes de trânsito. Foram obtidos os seguintes dados:
 # - Código da cidade;
@@ -530,22 +573,110 @@ while count <= 50:
 # - Qual a média de acidentes de trânsito nas cidades com menos de 2.000 veículos de
 # passeio.
 
+# cities = [
+#     {"code": "MG", "vehicleCount": 3020, "accidents": 50},
+#     {"code": "SP", "vehicleCount": 9999, "accidents": 20},
+#     {"code": "AM", "vehicleCount": 40, "accidents": 30},
+#     {"code": "RJ", "vehicleCount": 100, "accidents": 80},
+#     {"code": "RS", "vehicleCount": 1500, "accidents": 60}
+# ]
+
+cities = []
+count = 1
+for _ in range(5):
+    cities.append({
+        "code":         input("Digite o código da cidade %d: " %count),
+        "vehicleCount": int(input("Digite a quantidade de carros na cidade %d: " %count)),
+        "accidents":    int(input("Digite a quantidade de acidentes na cidade %d: " %count))
+    })
+    count += 1
+
+highest = {"code": cities[0]["code"], "ratio": cities[0]["accidents"]/cities[0]["vehicleCount"]}
+lowest = {"code": cities[0]["code"], "ratio": cities[0]["accidents"]/cities[0]["vehicleCount"]}
+total_vehicles = 0
+total_low_cities = 0
+total_low_accidents = 0
+
+
+for city in cities:
+
+    if(city["accidents"]/city["vehicleCount"] > highest["ratio"]):
+        highest = {"code": city["code"], "ratio": city["accidents"]/city["vehicleCount"]}
+
+    if(city["accidents"]/city["vehicleCount"] < lowest["ratio"]):
+        lowest = {"code": city["code"], "ratio": city["accidents"]/city["vehicleCount"]}
+    
+    total_vehicles += city["vehicleCount"]
+
+    if(city["vehicleCount"] < 2000):
+        total_low_accidents += city["accidents"]
+        total_low_cities += 1
+
+print("O maior índice de acidentes de trânsito foi em {:} com índice de {:.2f}%".format(highest["code"], (highest["ratio"]*100)))
+print("O menor índice de acidentes de trânsito foi em {:} com índice de {:.2f}%".format(lowest["code"], (lowest["ratio"]*100)))
+print("A média de veículos que tem em todas as cidades é %.2f" %(total_vehicles/len(cities)))
+print("A média de acidentes em cidades com menos de 2000 veículos é %.2f" %(total_low_accidents/total_low_cities))
+
+
 # 24. Faça um programa que receba o valor de uma dívida e mostre uma tabela com
 # os seguintes dados: valor da dívida, valor dos juros, quantidade de parcelas e valor
 # da parcela.
 # Os juros e a quantidade de parcelas seguem a tabela abaixo:
 # Quantidade de Parcelas % de Juros sobre o valor inicial da dívida
-# 1 0
-# 3 10
-# 6 15
-# 9 20
-# 12 25
+# 1 0%
+# 3 10%
+# 6 15%
+# 9 20%
+# 12 25%
 # Exemplo de saída do programa:
 # Valor da Dívida Valor dos Juros Quantidade de Parcelas Valor da Parcela
 
 # R$ 1.000,00 0 1 R$ 1.000,00
 # R$ 1.100,00 100 3 R$ 366,00
 # R$ 1.150,00 150 6 R$ 191,67
+
+plans = [
+    {"parcels": 1, "tax": 0},
+    {"parcels": 3, "tax": 0.1},
+    {"parcels": 6, "tax": 0.15},
+    {"parcels": 9, "tax": 0.2},
+    {"parcels": 12, "tax": 0.25}
+]
+
+owed_price = float(input("Valor da dívida: ")) 
+
+print("Valor da Dívida | Valor dos Juros | Quantidade de Parcelas | Valor da Parcela")
+
+for plan in plans:
+
+    tax_price = owed_price * plan["tax"]
+    total_owed = tax_price + owed_price
+    parcel_price = total_owed/plan["parcels"] 
+
+    print("R$ {:.2f} | R$ {:.2f} | {:d} | R$ {:.2f}".format(total_owed, tax_price, plan["parcels"], parcel_price))
+
+
 # 25. Faça um programa que mostre os n termos da Série a seguir:
 # S = 1/1 + 2/3 + 3/5 + 4/7 + 5/9 + ... + n/m.
 # Imprima no final a soma da série.
+
+print("Dado a sequência matemática 'S = 1/1 + 2/3 + 3/5 + 4/7 + 5/9 + ... + n/m.'")
+
+iterations = int(input("Quantos números deseja observar nesta sequência?: "))
+
+count1 = 1
+count2 = 1
+total = 0
+to_print = "S = "
+
+for _ in range(iterations):
+    total += count1/count2
+    to_print += "{:d}/{:d} + ".format(count1, count2)
+    count1 += 1
+    count2 += 2
+
+to_print = to_print[:-3]
+
+print(to_print)
+
+print("O número resultante desta série é ", total)
