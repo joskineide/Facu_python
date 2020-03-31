@@ -1,31 +1,6 @@
 import math
 import abc
-
-
-
-# 3 Jogo de Blackjack: Faça um joguinho simples em Python.
-# Aqui estão os requisitos:
-# - Você precisa criar um jogo de BlackJack (21) baseado em texto simples
-# - O jogo precisa ter um jogador contra um croupier automatizado.
-# - O jogador pode desistir ou bater.
-# - O jogador deve ser capaz de escolher o seu valor de aposta.
-# - Você precisa acompanhar o dinheiro total do jogador.
-# - Você precisa alertar o jogador de vitórias, derrotas ou estouros, etc ...
-# E o mais importante:
-# Você deve usar OOP e classes em alguma parte do seu jogo. Você não pode
-# simplesmente usar funções no seu jogo. Use classes para ajudá-lo a definir o deck e a
-# mão do jogador. Há muitas maneiras certas de fazer isso, então explore bem!
-# Regras do Jogo:
-# https://en.wikipedia.org/wiki/Blackjack
-# https://pt.wikipedia.org/wiki/Blackjack
-
-
-
-raise "hell"
-
-
-
-
+import random
 
 # 1 Linha: Crie a classe Linha que tem dois atributos, coordenada1 e coordenada2.
 # Cada coordenada é uma tupla que carrega duas coordenadas cartesianas (x,y) que
@@ -180,7 +155,6 @@ class Geometry():
                 pass
 
 
-
 shapes = [
     Circle(10), 
     Triangle(10, 11, 12),
@@ -195,3 +169,205 @@ geometry.printInfo()
 
 
 
+# 3 Jogo de Blackjack: Faça um joguinho simples em Python.
+# Aqui estão os requisitos:
+# - Você precisa criar um jogo de BlackJack (21) baseado em texto simples
+# - O jogo precisa ter um jogador contra um croupier automatizado.
+# - O jogador pode desistir ou bater.
+# - O jogador deve ser capaz de escolher o seu valor de aposta.
+# - Você precisa acompanhar o dinheiro total do jogador.
+# - Você precisa alertar o jogador de vitórias, derrotas ou estouros, etc ...
+# E o mais importante:
+# Você deve usar OOP e classes em alguma parte do seu jogo. Você não pode
+# simplesmente usar funções no seu jogo. Use classes para ajudá-lo a definir o deck e a
+# mão do jogador. Há muitas maneiras certas de fazer isso, então explore bem!
+# Regras do Jogo:
+# https://en.wikipedia.org/wiki/Blackjack
+# https://pt.wikipedia.org/wiki/Blackjack
+
+
+
+class Player():
+  def __init__(self, name, money):
+    self.name = name
+    self.cur_hand = []
+    self.money = money
+    self.betting = 0
+
+  def getName(self):
+    return self.name
+
+  def getMoney(self):
+    return self.money
+  
+  def setMoney(self, money):
+    self.money = money
+
+  def setCurHand(self, cur_hand):
+    self.cur_hand = cur_hand
+
+  def getCurHand(self):
+    return self.cur_hand
+
+  def getPoint(self):
+    if sum(self.cur_hand) <= 11 and 1 in self.cur_hand:
+      return sum(self.cur_hand) + 10
+    return sum(self.cur_hand)
+
+  def addBet(self, ammount):
+    print("Aumentando", self.name, "aposta para ", ammount)
+    self.money -= ammount
+    self.betting += ammount
+
+  def gainBetMoney(self, money):
+    self.money += money
+
+  def ressetBet(self):
+    self.betting = 0
+
+  def getBet(self):
+    return self.betting
+
+  def addCard(self, card):
+    self.cur_hand.append(card)
+
+  def cleanHand(self):
+    self.cur_hand = []
+
+
+class Deck():
+  def __init__(self, deck=[]):
+    self.deck = 4 * [x for x in range(1,11)]
+    self.deck = self.deck + (12 * [10])
+    self.shuffleCards()
+
+  def drawCard(self, player_name):
+    to_return = self.deck[0]
+    self.deck.pop(0)
+    print("Jogador", player_name, "puxou", to_return)
+    return to_return
+
+  def shuffleCards(self):
+    random.shuffle(self.deck)
+
+  def getDeck(self):
+    return self.deck
+
+
+class Game():
+  def __init__(self, player, dealer, bet):
+    self.player = player
+    self.dealer = dealer
+    self.generateInitialBet(bet)
+    self.deck = Deck()
+    for __ in range(2):
+      self.player.addCard(self.deck.drawCard(self.player.getName()))
+      self.dealer.addCard(self.deck.drawCard(self.dealer.getName()))
+    self.showScore()
+   
+
+  def generateInitialBet(self, bet):
+    if self.player.getMoney() < bet:
+      bet = self.player.getMoney()
+    if self.dealer.getMoney() < bet:
+      bet = self.dealer.getMoney()
+    
+    self.player.addBet(bet)
+    self.dealer.addBet(bet)
+
+
+  def drawStage(self):
+
+    while input("Puxar uma carta? ") in positive:
+      self.player.addCard(self.deck.drawCard(self.player.getName()))
+      if(player.getPoint() >= 21):
+        return
+      self.showScore()
+
+  
+    while dealer.getPoint() < player.getPoint():
+      self.dealer.addCard(self.deck.drawCard(self.dealer.getName()))
+      if(dealer.getPoint() >= 21):
+        return 
+      self.showScore()
+
+  def checkStartWinner(self):
+    
+    if(self.player.getPoint() == 21):
+      print("Jogador", self.player.getName(), "ganhou!")
+      self.player.gainBetMoney(self.player.getBet()*2)
+      return True
+
+    if(self.dealer.getPoint() == 21):
+      print("Jogador", self.dealer.getName(), "ganhou!")
+      self.dealer.gainBetMoney(self.dealer.getBet()*2)
+      return True
+
+    return False
+
+  def checkWinner(self):
+
+    if(self.dealer.getPoint() > 21 or ((not self.player.getPoint() > 21) and (self.player.getPoint() == 21 or self.player.getPoint() > self.dealer.getPoint()))):
+      print("Jogador", self.player.getName(), "ganhou!")
+      self.player.gainBetMoney(self.player.getBet()*2)
+    elif self.player.getPoint() == self.dealer.getPoint():
+      print("Empate!")
+      self.player.gainBetMoney(self.player.getBet())
+      self.dealer.gainBetMoney(self.dealer.getBet())
+    else:
+      print("Jogador", self.dealer.getName(), "ganhou!")
+      self.dealer.gainBetMoney(self.dealer.getBet()*2)
+
+  def showScore(self):
+    print("Total apostado:", self.player.getBet())
+    print("Dinheiro jogador ", self.player.getName(),"R$",self.player.getMoney())
+    print("Dinheiro jogador ", self.dealer.getName(),"R$",self.dealer.getMoney())
+    print("Mão do jogador", self.player.getName(), ":", self.player.getCurHand())
+    print("Mão do jogador", self.dealer.getName(), ":", self.dealer.getCurHand())
+    print(self.player.getName(), "tem", self.player.getPoint())
+    print(self.dealer.getName(), "tem", self.dealer.getPoint())
+    
+  
+  def finish(self):
+    self.player.ressetBet()
+    self.player.cleanHand()
+    self.dealer.ressetBet()
+    self.dealer.cleanHand()
+
+
+name = input("Nome do jogador: ")
+money = float(input("Quanto dinheiro deseja começar com: "))
+
+player = Player(name, money)
+dealer = Player("Croupier", 10000.0)
+
+option_continue = True
+positive = ["sim", "yes", "true", "s", "y"]
+
+
+while player.getMoney() > 0 and option_continue:
+
+  bet = float(input("Aposta inicial: "))
+
+  game = Game(player, dealer, bet)
+
+  if not game.checkStartWinner():
+
+    dealing_stage = True
+
+    game.drawStage()
+
+    game.showScore()
+
+    game.checkWinner()
+
+  print("Total apostado:", player.getBet())
+  print("Dinheiro jogador ", player.getName(),"R$",player.getMoney())
+  print("Dinheiro jogador ", dealer.getName(),"R$",dealer.getMoney())
+
+  game.finish()
+
+  option_continue = input("Continuar? ") in positive
+
+print("Obrigado por jogar blackjack!")
+print("Seu dinheiro final:", player.getMoney())
