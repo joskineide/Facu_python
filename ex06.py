@@ -7,7 +7,7 @@ def soma_nat(num):
         return num + soma_nat(num - 1)
     return num
 
-print(soma_nat(5))
+assert(soma_nat(5) == 15)
 
 
 # 2 Defina a função div que recebe como argumentos dois números naturais m
@@ -21,7 +21,7 @@ def div(m, n):
         return 1 + div(m - n, n)
     return 0
 
-print(div(7,2))
+assert (div(7,2) == 3)
 
 
 # 3 Defina a função prim_alg que recebe como argumento um número natural e
@@ -34,8 +34,8 @@ def prim_alg(num):
         return prim_alg(num / 10)
     return int(num)
 
-print(prim_alg(5649))
-print(prim_alg(7))
+assert (prim_alg(5649) == 5)
+assert (prim_alg(7) == 7)
 
 
 # 4 Defina a função prod_lista que recebe como argumento uma lista de inteiros e
@@ -49,7 +49,7 @@ def prod_lista(num_list):
         return prod_lista(num_list) * multi
     return 1
 
-print(prod_lista([1,2,3,4,5,6]))
+assert (prod_lista([1,2,3,4,5,6]) == 720)
 
 
 # 5 Defina a função contem_parQ que recebe como argumento uma lista de números
@@ -66,8 +66,8 @@ def contem_parQ(num_list):
     return False
 
 
-print(contem_parQ([2,3,1,2,3,4]))
-print(contem_parQ([1,3,5,7]))
+assert (contem_parQ([2,3,1,2,3,4]))
+assert (not contem_parQ([1,3,5,7]))
 
 
 # 6 Defina a função todos_imparesQ que recebe como argumento uma lista de
@@ -86,9 +86,9 @@ def todos_imparesQ(num_list):
     return True
 
 
-print(todos_imparesQ([1,3,5,7]))
-print(todos_imparesQ([]))
-print(todos_imparesQ([1,2,3,4,5]))
+assert (todos_imparesQ([1,3,5,7]))
+assert (todos_imparesQ([]))
+assert (not todos_imparesQ([1,2,3,4,5]))
 
 
 # 7 Defina a função pertenceQ que recebe como argumentos uma lista de números
@@ -107,10 +107,10 @@ def pertenceQ(num_list, num):
         return pertenceQ(num_list, num)
     return False
 
-print(pertenceQ([1,2,3],1))
-print(pertenceQ([1,2,3],2))
-print(pertenceQ([1,2,3],3))
-print(pertenceQ([1,2,3],4))
+assert (pertenceQ([1,2,3],1))
+assert (pertenceQ([1,2,3],2))
+assert (pertenceQ([1,2,3],3))
+assert (not pertenceQ([1,2,3],4))
 
 
 # 8 Defina a função junta que recebe como argumentos duas listas de números
@@ -127,9 +127,9 @@ def junta(num_list_original, num_list_add):
     return(num_list_original)
 
 
-print(junta([1,2,3],[4,5,6]))
-print(junta([],[4,5,6]))
-print(junta([1,2,3],[]))
+assert (junta([1,2,3],[4,5,6]) == [1,2,3,4,5,6])
+assert (junta([],[4,5,6]) == [4,5,6])
+assert (junta([1,2,3],[]) == [1,2,3])
 
 
 # 9 Defina a função temPrimoQ que recebe como argumento uma lista de listas de
@@ -160,8 +160,8 @@ def isPrime(num, div = None):
         return isPrime(num, div - 1)
     return True
 
-print(temPrimoQ([[4,4,4,4],[5,4,6,7],[2,4,3]]))
-print(temPrimoQ([[4,4,4,4],[4,4,4],[],[4]]))
+assert (temPrimoQ([[4,4,4,4],[5,4,6,7],[2,4,3]]))
+assert (not temPrimoQ([[4,4,4,4],[4,4,4],[],[4]]))
 
 
 # 10 Defina a função inverteLista que recebe como argumento uma lista w e devolve a
@@ -180,5 +180,5 @@ def inverteLista(num_list):
         return new_list
     return num_list
 
-print(inverteLista([1,2,3,4,5]))
-print(inverteLista([]))
+assert (inverteLista([1,2,3,4,5]) == [5,4,3,2,1])
+assert (inverteLista([]) == [])
