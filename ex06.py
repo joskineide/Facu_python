@@ -1,3 +1,38 @@
+
+# 9 Defina a função temPrimoQ que recebe como argumento uma lista de listas de
+# números inteiros w e devolve True se alguma das sublistas w tem um número
+# primo e False em caso contrário.
+# Ex: temPrimoQ([[4,4,4,4],[5,4,6,7],[2,4,3]]) = True
+# Ex: temPrimoQ([[4,4,4,4],[4,4,4],[],[4]]) = False
+
+def temPrimoQ(list_num_list):
+    if list_num_list:
+        if list_num_list[0]:
+            if isPrime(list_num_list[0][0]):
+                return True 
+            list_num_list[0].pop(0)
+            return temPrimoQ(list_num_list)
+        list_num_list.pop(0)
+        return temPrimoQ(list_num_list)
+    return False
+
+def isPrime(num, div = None):
+    if div == None:
+        div = num - 1
+    if num <= 0:
+        return False
+    if div > 1:
+        if num % div == 0:
+            return False
+        return isPrime(num, div - 1)
+    return True
+
+print(temPrimoQ([[4,4,4,4],[5,4,6,7],[2,4,3]]))
+print(temPrimoQ([[4,4,4,4],[4,4,4],[],[4]]))
+
+
+
+
 # 1 Defina a função soma_nat que recebe como argumento um número natural n
 # e devolve a soma de todos os números naturais até n.
 # Ex: soma_nat(5) = 15
@@ -132,34 +167,6 @@ print(junta([],[4,5,6]))
 print(junta([1,2,3],[]))
 
 
-# 9 Defina a função temPrimoQ que recebe como argumento uma lista de listas de
-# números inteiros w e devolve True se alguma das sublistas w tem um número
-# primo e False em caso contrário.
-# Ex: temPrimoQ([[4,4,4,4],[5,4,6,7],[2,4,3]]) = True
-# Ex: temPrimoQ([[4,4,4,4],[4,4,4],[],[4]]) = False
-
-def temPrimoQ(list_num_list):
-    if list_num_list:
-        if list_num_list[0]:
-            if isPrime(list_num_list[0][0], list_num_list[0][0] - 1):
-                return True 
-            list_num_list[0].pop(0)
-            return temPrimoQ(list_num_list)
-        list_num_list.pop(0)
-        return temPrimoQ(list_num_list)
-    return False
-
-def isPrime(num, div):
-    if num <= 0:
-        return False
-    if div > 1:
-        if num % div == 0:
-            return False
-        return isPrime(num, div - 1)
-    return True
-
-print(temPrimoQ([[4,4,4,4],[5,4,6,7],[2,4,3]]))
-print(temPrimoQ([[4,4,4,4],[4,4,4],[],[4]]))
 
 
 # 10 Defina a função inverteLista que recebe como argumento uma lista w e devolve a
