@@ -332,6 +332,70 @@ print(contentResults.readlines())
 # cálculo do percentual de uso também deverá ser feito através de uma função, que
 # será chamada pelo programa principal.
 
+def bytesToMegabytes(num):
+    mbytes = num * 2**(-20)
+    return arredonda2Digi(mbytes)
+#     return mbytes
 
+def usePercentual(num, total):
+    res = num * 100 / total
+    return arredonda2Digi(res)
 
-#TODO resolver este exercício
+def mediaOcupado(qtde, total):
+    media = total / qtde
+    return arredonda2Digi(media)
+
+def arredonda2Digi(valor):
+    valor = float("{:.2f}".format(valor))
+    return valor
+
+usuarios_dici = {'alexandre': 456123789, 'anderson': 1245698456, 'antonio': 123456456, 'carlos': 91257581, 'cesar': 987458, 'rosemary': 789456125}
+relatorio_dici = {}
+
+usuarios_txt = open("usuarios.txt","w+")
+
+for user,value in usuarios_dici.items():
+    usuarios_txt.write('{:<16}'.format(user[0:15]))
+    usuarios_txt.write(str(value) + '\n')
+           
+usuarios_txt.seek(0)
+print("Arquivo 'usuarios.txt'\n")
+print(usuarios_txt.read())
+usuarios_txt.close()
+
+usuarios_txt = open("usuarios.txt","a+")
+usuarios_txt.seek(0)
+nr = 0
+espaco_total = 0
+espaco_medio = 0
+maior_valor = 0
+for value in usuarios_txt:
+    linha_usuarios = value.split()
+    nr+=1
+    relatorio_dici[nr] = []
+    usuario = linha_usuarios[0]
+    espaco = bytesToMegabytes(int(linha_usuarios[1]))
+    relatorio_dici[nr].append(usuario)
+    relatorio_dici[nr].append(espaco)
+    espaco_total += espaco
+    if(espaco>maior_valor):
+        maior_valor = espaco
+        
+relatorio_txt = open("relatorio.txt","w+")
+relatorio_txt.write("ACME Inc.\t\tUso do espaço em disco pelos usuários\n--------------------------------------------------------------\n")
+relatorio_txt.write("{0:8}{1:16}{2:29}{3:7}\n\n".format('Nr.','Usuário','Espaço utilizado','% do uso'))
+
+tam = len(str(maior_valor))
+for key,value in relatorio_dici.items():
+    relatorio_dici[key].append(usePercentual(value[1], espaco_total))
+    relatorio_txt.write("{0:8}{1:16}{2:{4}} MB{3:6}%\n".format(str(key).ljust(8),str(value[0]),str(value[1]).rjust(tam),str(value[2]).rjust(33-tam),tam))
+espaco_medio = mediaOcupado(len(relatorio_dici), espaco_total)
+
+relatorio_txt.write(f'\nEspaço total ocupado: {espaco_total} MB\n')
+relatorio_txt.write(f'Espaço médio ocupado: {espaco_medio} MB')
+
+relatorio_txt.seek(0)
+print("\nArquivo 'relatorio.txt'\n")
+print(relatorio_txt.read())
+relatorio_txt.close()
+usuarios_txt.close()
