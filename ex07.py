@@ -1,21 +1,3 @@
-
-# 10 Defina a função inverteLista que recebe como argumento uma lista w e devolve a
-# mesma lista mas invertida.
-
-# Ex: inverteLista([1,2,3,4,5]) = [5, 4, 3, 2, 1]
-# Ex: inverteLista([])
-
-
-#DESCOBRIR COMO DAR O APPEND ANTES OU INSTANCIAR VARIAVEL EM FUNÇÃO LAMBDA
-
-inverteLista = lambda num_list : [num_list.pop(0)] if len(num_list) == 1 else inverteLista(num_list).append(num_list.pop(0)) #else num_list.append(num_list.pop(0)) if inverteLista(num_list) else None
-
-print(inverteLista([1,2,3,4,5]))
-
-
-
-
-
 # 1 Defina a função soma_nat que recebe como argumento um número natural n
 # e devolve a soma de todos os números naturais até n.
 # Ex: soma_nat(5) = 15
@@ -24,10 +6,7 @@ soma_nat = lambda num : num if num == 1 else num + soma_nat(num - 1)
 
 assert(soma_nat(5) == 15)
 
-# 5 Defina a função contem_parQ que recebe como argumento uma lista de números
-# inteiros w e devolve True se w contém um número par e False em caso contrário.
-# Ex: contem_parQ([2,3,1,2,3,4]) = True
-# Ex: contem_parQ([1,3,5,7]) = False
+
 # 2 Defina a função div que recebe como argumentos dois números naturais m
 # e n e devolve o resultado da divisão inteira de m por n. Neste exercício você não
 # pode recorrer às operações aritméticas de multiplicação, divisão e resto da divisão
@@ -128,4 +107,17 @@ assert(temPrimoQ([[4,4,4,4],[5,4,6,7],[2,4,3]]))
 assert(not temPrimoQ([[4,4,4,4],[4,4,4],[],[4]]))
 
 
+# 10 Defina a função inverteLista que recebe como argumento uma lista w e devolve a
+# mesma lista mas invertida.
 
+# Ex: inverteLista([1,2,3,4,5]) = [5, 4, 3, 2, 1]
+# Ex: inverteLista([])
+
+# Não consegui pensar em uma resposta que não precisasse pelo menos instânciar uma variável, sem usar o próprio reverse do python
+# inverteLista = lambda num_list : num_list if len(num_list) == 1 else num = num_list.pop(0) , inverteLista(num_list).append(num)
+
+# Resposta temporária, a confirmar com professor
+inverteLista = lambda num_list : num_list if num_list.reverse() == None else num_list
+
+assert(inverteLista([1,2,3,4,5]) == [5, 4, 3, 2, 1])
+assert(inverteLista([]) == [])
