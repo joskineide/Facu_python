@@ -175,3 +175,28 @@ for i in MultipleFiveIterator(7):
 # do passo seja feita de fora (use send()).
 # Ex: gera_inteiros_flex(7) = 12, 17, 22, 24, 26, 28, 30...
 # Entre 22 e 24 o passo foi alterado de 5 para 2.
+
+def generator(num):
+    while True:
+        num += yield
+        yield num
+
+init_value = int(input("Deseja começar por qual valor? "))
+
+gen = generator(init_value)
+
+iterator = 5
+
+while True:
+
+    next_iterator = input("Qual o valor da proxima iteração? (vazio mantem valor anterior, 'exit' para a operação) ")
+
+    if next_iterator == "exit":
+        break
+    elif next_iterator != "":
+        iterator = int(next_iterator)
+
+    gen.send(None)
+    print(gen.send(iterator))
+    
+
